@@ -4,6 +4,10 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
+using BasicWebServer;
+using System.Linq;
+using System.Reflection;
+
 
 namespace BasicServerHTTPlistener
 {
@@ -22,6 +26,7 @@ namespace BasicServerHTTPlistener
  
             // Create a listener.
             HttpListener listener = new HttpListener();
+
 
             // Add the prefixes.
             if (args.Length != 0)
@@ -76,47 +81,62 @@ namespace BasicServerHTTPlistener
                 Console.WriteLine($"Received request for {request.Url}");
 
                 //get url protocol
-                Console.WriteLine(request.Url.Scheme);
+              //Console.WriteLine(request.Url.Scheme);
                 //get user in url
-                Console.WriteLine(request.Url.UserInfo);
+              //Console.WriteLine(request.Url.UserInfo);
                 //get host in url
-                Console.WriteLine(request.Url.Host);
+              //Console.WriteLine(request.Url.Host);
                 //get port in url
-                Console.WriteLine(request.Url.Port);
+              //Console.WriteLine(request.Url.Port);
                 //get path in url 
-                Console.WriteLine(request.Url.LocalPath);
+               //onsole.WriteLine(request.Url.LocalPath);
 
                 // parse path in url 
-                foreach (string str in request.Url.Segments)
+            /*    foreach (string str in request.Url.Segments)
                 {
                     Console.WriteLine(str);
-                }
+                }*/
 
                 //get params un url. After ? and between &
 
-                Console.WriteLine(request.Url.Query);
+             // Console.WriteLine(request.Url.Query);
 
                 //parse params in url
-                Console.WriteLine("param1 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param1"));
+               /* Console.WriteLine("param1 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param1"));
                 Console.WriteLine("param2 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param2"));
                 Console.WriteLine("param3 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param3"));
-                Console.WriteLine("param4 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param4"));
+                Console.WriteLine("param4 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param4"));*/
 
                 //
-                Console.WriteLine(documentContents);
+             //onsole.WriteLine(documentContents);
 
                 // Obtain a response object.
                 HttpListenerResponse response = context.Response;
 
+                //reflexion
+                Type type = typeof(MyMethods);
+                MyMethods myMethods = new MyMethods();
+
                 // Construct a response.
-                string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
-                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
-                // Get a response stream and write the response to it.
-                response.ContentLength64 = buffer.Length;
-                System.IO.Stream output = response.OutputStream;
-                output.Write(buffer, 0, buffer.Length);
-                // You must close the output stream.
-                output.Close();
+                string param1 = HttpUtility.ParseQueryString(request.Url.Query).Get("param1");
+                string param2 = HttpUtility.ParseQueryString(request.Url.Query).Get("param2");
+                string methodName = request.Url.LocalPath.Split('/').Last();
+                MethodInfo method = type.GetMethod(methodName);
+                if(method !=null)
+                {
+             
+                 // Console.WriteLine(methodName);
+                    object[] parameters = { param1, param2 };
+                    string responseString = (string)method.Invoke(myMethods, parameters);
+                    byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
+                    // Get a response stream and write the response to it.
+                    response.ContentLength64 = buffer.Length;
+                    System.IO.Stream output = response.OutputStream;
+                    output.Write(buffer, 0, buffer.Length);
+                    // You must close the output stream.
+                    output.Close();
+                }                
+             
             }
             // Httplistener neither stop ... But Ctrl-C do that ...
             // listener.Stop();

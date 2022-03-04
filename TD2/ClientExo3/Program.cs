@@ -9,6 +9,7 @@ using System.Threading;
 
 namespace Exo3
 {
+    //GET /uri? nbr = 1 HTTP/1.1
     class ClientExo3
     {
         static TcpClient clientSocket;
@@ -29,8 +30,8 @@ namespace Exo3
 
             while (true)
             {
-                string str = "response: ";
-                str = str + reader.ReadString();
+                string str = "incr OK val = ";
+                str = str + reader.ReadString().Split(' ')[1]; // format : Response increment
                 Console.WriteLine(str);
             }
 

@@ -9,7 +9,7 @@ namespace ExeTest
             if (args.Length >= 1)
             {
 
-                Console.WriteLine("<html><body> Hello " + args[0] +" "+args[1]+ "</body></html>");
+                Console.WriteLine("<html><body> External c# .exe call : Param 1 =  " + args[0] +" Param 2 ="+args[1]+ "</body></html>");
             }
             else
                 Console.WriteLine("No parameter");

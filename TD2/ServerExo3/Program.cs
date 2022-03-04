@@ -78,7 +78,7 @@ namespace EXO3
                     string nbr = HttpUtility.ParseQueryString(parameters).Get("nbr");
 
                     int increment = incr(int.Parse(nbr));
-                    writer.Write(increment.ToString());
+                    writer.Write("Response "+increment.ToString()); //ici on retourne la valeur incrémentée sous le format : Response : increment
                 }
                 else
                 {

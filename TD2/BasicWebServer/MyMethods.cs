@@ -11,24 +11,25 @@ namespace BasicWebServer
 {
     internal class MyMethods
     {
-        //question 1
+        //question 1 URL : http://localhost:8080/Method1?param1=6&param2=7
+
         public string Method1(string param1, string param2)
         {
-            return "<html><body> Hello " + param1+ " "+ param2 + "</body></html>";
+            return "<html><body> Hello " + param1 + " " + param2 + "</body></html>";
         }
 
-        //question 2 
+        //question 2 URL http://localhost:8080/ExecTest?param1=4&param2=8
         public string ExecTest(string param1, string param2)
         {
             ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = @"D:\COURS NICE\annee 4\S8\SOC\TD\eiin839\TD2\ExecTest\bin\Debug\ExecTest.exe";
-            start.Arguments = param1+" "+param2; 
-            
+            // chemin relatif vers ExecTest.exe
+            start.FileName = @"..\..\..\ExecTest\bin\Debug\ExecTest.exe";
+
+            start.Arguments = param1 + " " + param2;
+
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
-            //
-            // Start the process.
-            //
+
             using (Process process = Process.Start(start))
             {
                 //
@@ -44,6 +45,7 @@ namespace BasicWebServer
         }
 
         //question 2 Bonus python script call
+        //URL http://localhost:8080/ExecPython?param1=5&param2=10
         public string ExecPython(string param1, string param2)
         {
             ProcessStartInfo start = new ProcessStartInfo();
@@ -65,6 +67,5 @@ namespace BasicWebServer
                 }
             }
         }
-
     }
 }

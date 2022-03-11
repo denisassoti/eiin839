@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
+using System.ServiceModel.Web;
 using System.Text;
 
 namespace MathsLibrary
@@ -13,15 +14,23 @@ namespace MathsLibrary
     {
 
         [OperationContract]
+        [WebInvoke(Method ="GET", ResponseFormat = WebMessageFormat.Json, 
+            BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "add?p1={p1}&p2={p2}")]
         int Add(int p1, int p2);
 
         [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "multiply?p1={p1}&p2={p2}")]
         int Multiply(int p1, int p2);
 
         [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "substract?p1={p1}&p2={p2}")]
         int Substract(int p1, int p2);
 
         [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "divide?p1={p1}&p2={p2}")]
         float Divide(int p1, int p2);
 
         [OperationContract]

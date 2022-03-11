@@ -36,7 +36,7 @@ function retrieveContractStations() {
 function stationsRetrieved() {
     var response = JSON.parse(this.responseText);
     stations = response;
-    //console.log(stations);
+    console.log(stations);
 }
 
 function getClosestStation() {
